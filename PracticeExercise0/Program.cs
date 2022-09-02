@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PracticeExcercise0
 {
@@ -23,7 +24,10 @@ namespace PracticeExcercise0
             IsUnique("");
             IsUnique("mom");
             IsUnique("Robbie");
-            IsUnique("Judah");
+            Console.WriteLine(IsUnique("Judah"));
+
+            Console.WriteLine(IsNeilNumber(371));
+            Console.WriteLine(IsNeilNumber(24));
 
         }
 
@@ -31,12 +35,26 @@ namespace PracticeExcercise0
         // #1
         public static bool IsPalindrome(string s)
         {
-            return true;
+            // clean up string
+            // remove spaces
+            // lowercase it
+            string cleanString = s.ToLower().Replace(" ", "");
+
+            // reverse the clean string
+            string reversed = Reverse(cleanString);
+
+            // check if the reverse string is the same as the clean string
+            return reversed == cleanString;       
         }
 
         private static string Reverse(string s)
         {
             string result = "";
+
+            foreach (char c in s)
+            {
+                result = result.Insert(0, c.ToString());
+            }
             
 
             return result;
@@ -45,12 +63,31 @@ namespace PracticeExcercise0
         // #2 
         public static int ReverseInt(int i)
         {
-            return 0;
+            int reversed = 0;
+            while( i != 0)
+            {
+                reversed = reversed * 10 + i % 10;
+                i = i / 10;
+            }
+
+            return reversed;
         }
 
         // #3
         public static bool IsUnique(string s)
         {
+            string cleanString = s.ToLower().Replace(" ", "");
+            for(int i = 0; i < cleanString.Length; i++)
+            {
+                for(int j = i + 1; j < cleanString.Length; j++)
+                {
+                    if (cleanString[i] == cleanString[j])
+                    {
+                        return false;
+                    }
+                }
+            }
+
             
             return true;
         }
@@ -59,8 +96,21 @@ namespace PracticeExcercise0
         // #4
         public static bool IsNeilNumber(int i)
         {
-            return true;
-        }
+            int iCopy = i;
+            int toAdd = 0;
+            string iLength = i.ToString();
+            while (i > 0)
+            {
+                int squared = (int)Math.Pow(i % 10, iLength.Length);
+                toAdd += squared;
 
+                i /= 10;
+            }
+            if (toAdd == iCopy)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
